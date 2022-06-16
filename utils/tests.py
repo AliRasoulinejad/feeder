@@ -4,19 +4,30 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 
+from user.models import User
+
 
 class AbstractFeederTest(TestCase):
-    def setUp(self) -> None:
-        self.populate_db()
 
-    def populate_db(self):
-        self.api_client = APIClient()
+    @classmethod
+    def setUpTestData(cls):
+        cls.api_client = APIClient()
 
-    def sign_in_user(self, client, username, password):
+        cls.sample_username = "user"
+        cls.sample_password = "@#TeSt"
+        cls.sample_user = User.objects.create_user(
+            username=cls.sample_username,
+            email="test@test.com",
+            password=cls.sample_password
+        )
+
+    @staticmethod
+    def sign_in_user(client, username, password):
         data = {"username": username, "password": password}
         response = client.post(
             reverse("signin-token"), json.dumps(data), content_type="application/json"
         )
-        token = response.json()["access"]
-        client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
-        return client
+        access_token = response.json()["access"]
+        refresh_token = response.json()["refresh"]
+        client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
+        return client, refresh_token

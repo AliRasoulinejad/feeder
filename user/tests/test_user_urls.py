@@ -20,3 +20,23 @@ class TestUserUrls(AbstractFeederTest):
             reverse("user-signup"), json.dumps(data), content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_login_user(self):
+        data = {
+            "username": self.sample_username,
+            "password": self.sample_password,
+        }
+        response = self.api_client.post(
+            reverse("signin-token"), json.dumps(data), content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_refresh_token(self):
+        client, refresh = self.sign_in_user(
+            self.api_client, self.sample_username, self.sample_password
+        )
+        data = {"refresh": refresh}
+        response = self.api_client.post(
+            reverse("refresh-token"), json.dumps(data), content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
