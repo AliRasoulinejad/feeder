@@ -25,7 +25,9 @@ MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 INTERNAL_IPS = ["127.0.0.1"]
 
 
+CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_ALWAYS_EAGER = True
+CELERY_TRACK_STARTED = True
 
 SITE_ID = 1

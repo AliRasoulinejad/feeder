@@ -20,3 +20,7 @@ DATABASES = {
         "DISABLE_SERVER_SIDE_CURSORS": True,
     },
 }
+
+
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_TRACK_STARTED = True
