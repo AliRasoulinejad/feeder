@@ -15,7 +15,7 @@ VOIP_SERVER_TOKEN = "asdj1ASDJK213asdkljc123ASDasd"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.spatialite",
+        'ENGINE': 'django.db.backends.sqlite3',
         "NAME": os.path.join(os.path.dirname(BASE_DIR), "db.sqlite3"),
     }
 }
