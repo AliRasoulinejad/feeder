@@ -2,7 +2,7 @@ from feeder.settings.base import *
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.environ.get("SECRET_KEY", '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -21,5 +21,4 @@ DATABASES = {
 }
 
 
-CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_TRACK_STARTED = True
+CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
