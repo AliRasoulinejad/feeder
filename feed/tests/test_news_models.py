@@ -1,7 +1,7 @@
 from feed.tests.abstract_news_test import AbstractNewsTest
 
 
-class TestUserUrls(AbstractNewsTest):
+class TestNewsUrls(AbstractNewsTest):
     def test_read_news(self):
         self.sample_news.read_by_user_id(self.sample_user1.id)
         self.assertEqual(self.sample_user1.read_news.filter(news_id=self.sample_news.id).count(), 1)

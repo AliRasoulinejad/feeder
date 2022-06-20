@@ -7,7 +7,7 @@ from feed.models import News
 from feed.tests.abstract_news_test import AbstractNewsTest
 
 
-class TestFeedUrls(AbstractNewsTest):
+class TestNewsUrls(AbstractNewsTest):
     def test_list_news(self):
         client = self.api_client
 
