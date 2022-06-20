@@ -27,7 +27,7 @@ class AbstractFeederTest(TestCase):
         )
 
     @staticmethod
-    def sign_in_user(client, username, password):
+    def sign_in_user(client: APIClient, username: str, password: str) -> (APIClient, User, str):
         data = {"username": username, "password": password}
         response = client.post(
             reverse("signin-token"), json.dumps(data), content_type="application/json"

@@ -7,5 +7,5 @@ class FeedSerializer(ModelSerializer):
 
     class Meta:
         model = Feed
-        fields = ("title", "description", "link", "rss_url", "last_update", "url",)
+        fields = ("id", "title", "description", "link", "rss_url", "last_update", "url",)
         read_only_fields = fields
