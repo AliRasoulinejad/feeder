@@ -50,14 +50,22 @@ djangorestframework-simplejwt==5.2.0
     # via -r requirements.in
 feedparser==6.0.10
     # via -r requirements.in
+flake8==4.0.1
+    # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
 kombu==5.2.4
     # via celery
+mccabe==0.6.1
+    # via flake8
 prompt-toolkit==3.0.29
     # via click-repl
 psycopg2-binary==2.9.3
     # via -r requirements.in
+pycodestyle==2.8.0
+    # via flake8
+pyflakes==2.4.0
+    # via flake8
 pyjwt==2.4.0
     # via djangorestframework-simplejwt
 python-crontab==2.6.0
