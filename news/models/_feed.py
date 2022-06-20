@@ -4,6 +4,10 @@ from django.db import models
 class UserFollowFeed(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='followed_feeds')
     feed = models.ForeignKey('news.Feed', on_delete=models.CASCADE, related_name='users_follow')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "feed")
 
 
 class Feed(models.Model):
@@ -20,3 +24,13 @@ class Feed(models.Model):
 
     def __str__(self):
         return f"{self.title}"
+
+    def url(self):
+        from rest_framework.reverse import reverse
+        return reverse('feed-viewset-detail', args=[self.id])
+
+    def follow_by_user_id(self, user_id: int) -> None:
+        self.followers.add(user_id)
+
+    def remove_follow_by_user_id(self, user_id: int) -> None:
+        self.followers.remove(user_id)
