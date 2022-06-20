@@ -25,7 +25,7 @@ class Feed(models.Model):
     def __str__(self):
         return f"{self.title}"
 
-    def url(self):
+    def get_absolute_url(self):
         from rest_framework.reverse import reverse
         return reverse('feed-viewset-detail', args=[self.id])
 

@@ -1,4 +1,15 @@
 from django.db import models
+from django.db.models import F
+
+
+class NewsQuerySet(models.QuerySet):
+    def unread_news_by_user_id(self, user_id):
+        return self.exclude(
+            users_read__user_id=user_id
+        ).filter(
+            feed__users_follow__user_id=user_id,
+            feed__users_follow__created_at__lt=F("created_at")
+        )
 
 
 class News(models.Model):
@@ -6,8 +17,9 @@ class News(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     link = models.URLField()
-    author = models.EmailField()
+    author = models.EmailField(null=True, blank=True)
     published_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     read_by = models.ManyToManyField(
         'user.User',
         related_name='reads_news',
@@ -25,8 +37,14 @@ class News(models.Model):
         through="feed.UserBookmarkNews"
     )
 
+    objects = NewsQuerySet.as_manager()
+
     def __str__(self):
         return f"{self.title}"
+
+    def get_absolute_url(self):
+        from rest_framework.reverse import reverse
+        return reverse('news-viewset-detail', args=[self.id])
 
     @classmethod
     def from_rss_json(cls, feed_id, json_item):
@@ -40,6 +58,21 @@ class News(models.Model):
             title=title, link=link, description=description, author=author,
             published_at=published_at,
         )
+
+    def read_by_user_id(self, user_id: int) -> None:
+        self.read_by.add(user_id)
+
+    def bookmark_by_user_id(self, user_id: int) -> None:
+        self.bookmarked_by.add(user_id)
+
+    def remove_bookmark_by_user_id(self, user_id: int) -> None:
+        self.bookmarked_by.remove(user_id)
+
+    def favorite_by_user_id(self, user_id: int) -> None:
+        self.favorite_by.add(user_id)
+
+    def remove_favorite_by_user_id(self, user_id: int) -> None:
+        self.favorite_by.remove(user_id)
 
 
 class UserReadNews(models.Model):

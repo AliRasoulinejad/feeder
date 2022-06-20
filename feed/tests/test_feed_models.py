@@ -1,7 +1,7 @@
 from feed.tests.abstract_feed_test import AbstractFeedTest
 
 
-class TestUserUrls(AbstractFeedTest):
+class TestFeedModel(AbstractFeedTest):
     def test_follow_feeds(self):
         self.sample_feed.follow_by_user_id(self.sample_user1.id)
         self.assertEqual(self.sample_user1.feeds.count(), 1)

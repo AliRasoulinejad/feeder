@@ -4,7 +4,7 @@ from rest_framework import status
 from feed.tests.abstract_feed_test import AbstractFeedTest
 
 
-class TestUserUrls(AbstractFeedTest):
+class TestFeedUrls(AbstractFeedTest):
     def test_list_feeds(self):
         client = self.api_client
 
