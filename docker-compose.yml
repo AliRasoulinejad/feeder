@@ -1,40 +1,75 @@
-version: "3.3"
+version: "3.9"
 
 services:
+  rabbitmq:
+    hostname: rabbit
+    image: rabbitmq:3-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=pass4root
+      - RABBITMQ_DEFAULT_VHOST=test
+    ports:
+      - 5673:5672
+      - 15673:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: on-failure
+
   db:
     image: postgres:12.3-alpine
-    ports:
-      - "5678:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=feeder
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_USER=postgres
+    ports:
+      - "5678:5432"
+    restart: on-failure
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "postgres", "-d", "feeder" ]
       interval: 10s
       timeout: 5s
       retries: 5
-  web:
-    build: .
-    ports:
-      - "8000:8000"
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A feeder worker -l INFO"
     depends_on:
+      rabbitmq:
+        condition: service_healthy
       db:
         condition: service_healthy
-
     links:
       - "db:database"
-    environment:
-      - DB_NAME=feeder
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DJANGO_SETTINGS_MODULE=feeder.settings.production
-      - SECRET_KEY=django-insecure-f00r*pf@%#^^k=jnah3*n(!zniam9&@nj$may-9*w=p(hvnv*s
-      - ALLOWED_HOSTS=0.0.0.0
+      - "rabbitmq:rabbitmq"
+    env_file:
+      - .example.env
+    restart: on-failure
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command: sh -c "python manage.py migrate && gunicorn feeder.wsgi -b 0.0.0.0:8000"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    restart: on-failure
+    links:
+      - "db:database"
+      - "rabbitmq:rabbitmq"
+    env_file:
+      - .example.env
 
 volumes:
   postgres_data:

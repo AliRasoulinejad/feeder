@@ -11,8 +11,6 @@ ALLOWED_HOSTS = ["*"]
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 PRODUCT_STORAGE_CLASS = "django.core.files.storage.FileSystemStorage"
 
-VOIP_SERVER_TOKEN = "asdj1ASDJK213asdkljc123ASDasd"
-
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -28,6 +26,5 @@ INTERNAL_IPS = ["127.0.0.1"]
 CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_ALWAYS_EAGER = True
-CELERY_TRACK_STARTED = True
 
 SITE_ID = 1
