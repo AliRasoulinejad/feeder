@@ -1,25 +1,10 @@
-from datetime import datetime
-
 from django.urls import reverse
 from rest_framework import status
 
-from feed.models import Feed
-from utils.tests import AbstractFeederTest
+from feed.tests.abstract_feed_test import AbstractFeedTest
 
 
-class TestUserUrls(AbstractFeederTest):
-    @classmethod
-    def setUpTestData(cls):
-        super().setUpTestData()
-        cls.sample_feed = Feed.objects.create(
-            title="Sample Feed - Favorite RSS Related Software & Resources",
-            description="Take a look at some of FeedForAll's favorite software and resources for "
-                        "learning more about RSS.",
-            link="https://www.feedforall.com",
-            rss_url="https://www.feedforall.com/sample-feed.xml",
-            last_update=datetime(2004, 10, 26, 14, 6, 44)
-        )
-
+class TestUserUrls(AbstractFeedTest):
     def test_list_feeds(self):
         client = self.api_client
 
