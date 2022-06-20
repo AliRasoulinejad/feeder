@@ -1,3 +1,4 @@
+from dateutil.parser import parse
 from django.db import models
 from django.db.models import F
 
@@ -52,7 +53,8 @@ class News(models.Model):
         link = json_item.get("link", "")
         description = json_item.get("description", "")
         author = json_item.get("author")
-        published_at = json_item.get("pubDate")
+        published_at = parse(json_item['published'])
+
         return cls(
             feed_id=feed_id,
             title=title, link=link, description=description, author=author,

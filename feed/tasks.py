@@ -1,5 +1,5 @@
 from feed.models import Feed
-from feeder.celery import app as celery_app
+from feeder.celery import app as celery_app, BaseTaskWithRetry
 
 
 @celery_app.task
@@ -8,8 +8,8 @@ def update_feeds_daily_task():
         update_feed.delay(feed.id)
 
 
-@celery_app.task
-def update_feed(feed_id: int):
+@celery_app.task(bind=True, base=BaseTaskWithRetry)
+def update_feed(feed_id: int, *args, **kwargs):
     from feed.scraper import FeedUpdater
 
     feed = Feed.objects.get(id=feed_id)

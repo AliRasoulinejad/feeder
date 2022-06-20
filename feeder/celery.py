@@ -25,3 +25,9 @@ app.conf.beat_schedule = {
         "args": (),
     },
 }
+
+
+class BaseTaskWithRetry(app.Task):
+    autoretry_for = (Exception,)
+    retry_kwargs = {'max_retries': 5}
+    retry_backoff = True
