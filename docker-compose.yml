@@ -52,6 +52,23 @@ services:
       - .example.env
     restart: on-failure
 
+  celery_worker_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A feeder worker -l INFO -B"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    links:
+      - "db:database"
+      - "rabbitmq:rabbitmq"
+    env_file:
+      - .example.env
+    restart: on-failure
+
   web:
     build:
       context: .

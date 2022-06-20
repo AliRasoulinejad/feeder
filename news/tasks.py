@@ -4,7 +4,7 @@ from news.models import Feed
 
 @celery_app.task
 def update_feeds_daily_task():
-    for feed in Feed.objects.all().iterator(chunk_size=100).only('id'):
+    for feed in Feed.objects.all().iterator(chunk_size=100):
         update_feed.delay(feed.id)
 
 

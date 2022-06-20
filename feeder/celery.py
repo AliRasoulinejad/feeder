@@ -21,7 +21,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     "update-feeds-daily-task": {
         "task": "news.tasks.update_feeds_daily_task",
-        "schedule": crontab(day_of_week="*", hour=0, minute=0),
+        "schedule": crontab(day_of_week="*", hour="*", minute=0),
         "args": (),
     },
 }
