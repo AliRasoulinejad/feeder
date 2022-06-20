@@ -3,7 +3,7 @@ from django.db import models
 
 class UserFollowFeed(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='followed_feeds')
-    feed = models.ForeignKey('news.Feed', on_delete=models.CASCADE, related_name='users_follow')
+    feed = models.ForeignKey('feed.Feed', on_delete=models.CASCADE, related_name='users_follow')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -19,7 +19,7 @@ class Feed(models.Model):
     followers = models.ManyToManyField(
         'user.User',
         related_name='feeds',
-        through="news.UserFollowFeed"
+        through="feed.UserFollowFeed"
     )
 
     def __str__(self):

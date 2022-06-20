@@ -1,6 +1,6 @@
 import feedparser
 
-from news.models import News, Feed
+from feed.models import News, Feed
 
 
 class Scraper:

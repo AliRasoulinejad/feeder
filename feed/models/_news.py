@@ -2,7 +2,7 @@ from django.db import models
 
 
 class News(models.Model):
-    feed = models.ForeignKey('news.Feed', on_delete=models.CASCADE, related_name='news')
+    feed = models.ForeignKey('feed.Feed', on_delete=models.CASCADE, related_name='feed')
     title = models.CharField(max_length=150)
     description = models.TextField()
     link = models.URLField()
@@ -11,18 +11,18 @@ class News(models.Model):
     read_by = models.ManyToManyField(
         'user.User',
         related_name='reads_news',
-        through="news.UserReadNews"
+        through="feed.UserReadNews"
     )
     favorite_by = models.ManyToManyField(
         'user.User',
         related_name='favorites',
-        through="news.UserFavoriteNews"
+        through="feed.UserFavoriteNews"
     )
 
     bookmarked_by = models.ManyToManyField(
         'user.User',
         related_name='bookmarks',
-        through="news.UserBookmarkNews"
+        through="feed.UserBookmarkNews"
     )
 
     def __str__(self):
@@ -44,14 +44,14 @@ class News(models.Model):
 
 class UserReadNews(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='read_news')
-    news = models.ForeignKey('news.News', on_delete=models.CASCADE, related_name='users_read')
+    news = models.ForeignKey('feed.News', on_delete=models.CASCADE, related_name='users_read')
 
 
 class UserFavoriteNews(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='favorites_news')
-    news = models.ForeignKey('news.News', on_delete=models.CASCADE, related_name='users_favorite')
+    news = models.ForeignKey('feed.News', on_delete=models.CASCADE, related_name='users_favorite')
 
 
 class UserBookmarkNews(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='bookmarked_news')
-    news = models.ForeignKey('news.News', on_delete=models.CASCADE, related_name='users_bookmark')
+    news = models.ForeignKey('feed.News', on_delete=models.CASCADE, related_name='users_bookmark')

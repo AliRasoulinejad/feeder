@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
             name='UserReadNews',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('news', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_read', to='news.news')),
+                ('news', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_read', to='feed.news')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='read_news', to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
             name='UserFollowFeed',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('feed', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_follow', to='news.feed')),
+                ('feed', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_follow', to='feed.feed')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='followed_feeds', to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
             name='UserFavoriteNews',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('news', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_favorite', to='news.news')),
+                ('news', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_favorite', to='feed.news')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favorites_news', to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -64,33 +64,33 @@ class Migration(migrations.Migration):
             name='UserBookmarkNews',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('news', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_bookmark', to='news.news')),
+                ('news', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users_bookmark', to='feed.news')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bookmarked_news', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
             model_name='news',
             name='bookmarked_by',
-            field=models.ManyToManyField(related_name='bookmarks', through='news.UserBookmarkNews', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='bookmarks', through='feed.UserBookmarkNews', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='news',
             name='favorite_by',
-            field=models.ManyToManyField(related_name='favorites', through='news.UserFavoriteNews', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='favorites', through='feed.UserFavoriteNews', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='news',
             name='feed',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='news', to='news.feed'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='news', to='feed.feed'),
         ),
         migrations.AddField(
             model_name='news',
             name='read_by',
-            field=models.ManyToManyField(related_name='reads_news', through='news.UserReadNews', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='reads_news', through='feed.UserReadNews', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='feed',
             name='followers',
-            field=models.ManyToManyField(related_name='feeds', through='news.UserFollowFeed', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='feeds', through='feed.UserFollowFeed', to=settings.AUTH_USER_MODEL),
         ),
     ]

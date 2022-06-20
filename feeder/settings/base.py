@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
 
     'user',
-    'news',
+    'feed',
 ]
 
 MIDDLEWARE = [
