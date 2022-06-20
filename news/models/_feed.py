@@ -10,7 +10,7 @@ class Feed(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     link = models.URLField()
-    rss_url = models.URLField(unique=True, db_index=True)
+    rss_url = models.URLField(unique=True, db_index=True, help_text='unique url for scraping feed')
     last_update = models.DateTimeField(null=True, blank=True)
     followers = models.ManyToManyField(
         'user.User',

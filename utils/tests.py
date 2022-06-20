@@ -15,10 +15,15 @@ class AbstractFeederTest(TestCase):
 
         cls.sample_username = "user"
         cls.sample_password = "@#TeSt"
-        cls.sample_user = User.objects.create_user(
+        cls.sample_user1 = User.objects.create_user(
             username=cls.sample_username,
             email="test@test.com",
             password=cls.sample_password
+        )
+        cls.sample_user2 = User.objects.create_user(
+            username="user2",
+            email="test2@test2.com",
+            password="B$TeSt2"
         )
 
     @staticmethod
@@ -29,5 +34,6 @@ class AbstractFeederTest(TestCase):
         )
         access_token = response.json()["access"]
         refresh_token = response.json()["refresh"]
+        user = User.objects.get(username=username)
         client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
-        return client, refresh_token
+        return client, user, refresh_token

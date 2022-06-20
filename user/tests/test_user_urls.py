@@ -32,7 +32,7 @@ class TestUserUrls(AbstractFeederTest):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_refresh_token(self):
-        client, refresh = self.sign_in_user(
+        client, _, refresh = self.sign_in_user(
             self.api_client, self.sample_username, self.sample_password
         )
         data = {"refresh": refresh}
