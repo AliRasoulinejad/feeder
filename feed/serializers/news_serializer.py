@@ -7,5 +7,8 @@ class NewsSerializer(ModelSerializer):
 
     class Meta:
         model = News
-        fields = ("title", "description", "link", "author", "published_at", "get_absolute_url")
+        fields = (
+            "id", "feed", "title", "description", "link", "author", "created_at", "published_at",
+            "get_absolute_url"
+        )
         read_only_fields = fields
