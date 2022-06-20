@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from news.models import Feed
+from feed.models import Feed
 from utils.tests import AbstractFeederTest
 
 

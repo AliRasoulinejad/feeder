@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from news.models import Feed
-from news.serializers import FeedSerializer
+from feed.models import Feed
+from feed.serializers import FeedSerializer
 
 
 class FeedViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):

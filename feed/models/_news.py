@@ -2,7 +2,7 @@ from django.db import models
 
 
 class News(models.Model):
-    feed = models.ForeignKey('feed.Feed', on_delete=models.CASCADE, related_name='feed')
+    feed = models.ForeignKey('feed.Feed', on_delete=models.CASCADE, related_name='news')
     title = models.CharField(max_length=150)
     description = models.TextField()
     link = models.URLField()
@@ -46,12 +46,21 @@ class UserReadNews(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='read_news')
     news = models.ForeignKey('feed.News', on_delete=models.CASCADE, related_name='users_read')
 
+    class Meta:
+        unique_together = ("user", "news")
+
 
 class UserFavoriteNews(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='favorites_news')
     news = models.ForeignKey('feed.News', on_delete=models.CASCADE, related_name='users_favorite')
 
+    class Meta:
+        unique_together = ("user", "news")
+
 
 class UserBookmarkNews(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='bookmarked_news')
     news = models.ForeignKey('feed.News', on_delete=models.CASCADE, related_name='users_bookmark')
+
+    class Meta:
+        unique_together = ("user", "news")

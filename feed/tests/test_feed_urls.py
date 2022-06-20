@@ -3,7 +3,7 @@ from datetime import datetime
 from django.urls import reverse
 from rest_framework import status
 
-from news.models import Feed
+from feed.models import Feed
 from utils.tests import AbstractFeederTest
 
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from news.models import Feed, News
+from feed.models import Feed, News
 
 
 @admin.register(Feed)

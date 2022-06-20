@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, re_path, include
 
-from news.router import urls as news_urls
+from feed.router import urls as news_urls
 
 urlpatterns = [
     path('feedermin/', admin.site.urls),

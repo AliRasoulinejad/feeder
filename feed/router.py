@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from news.viewsets import FeedViewSet
+from feed.viewsets import FeedViewSet
 
 router = DefaultRouter()
 

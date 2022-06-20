@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from news.models import Feed
+from feed.models import Feed
 
 
 class FeedSerializer(ModelSerializer):
