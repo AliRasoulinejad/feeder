@@ -36,7 +36,7 @@ class FeedUpdater:
         return (
                 self.feed.last_update is not None
                 and last_update is not None
-                and utc.localize(self.feed.last_update) >= last_update
+                and self.feed.last_update.replace(tzinfo=utc) >= last_update
         )
 
 
