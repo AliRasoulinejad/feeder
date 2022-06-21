@@ -17,7 +17,7 @@ class NewsViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, GenericV
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        if self.action == 'list':
+        if self.action == "list":
             self.queryset = self.queryset.unread_news_by_user_id(self.request.user.id)
         return super().get_queryset()
 
@@ -27,27 +27,27 @@ class NewsViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, GenericV
             permissions += [DenyPermission]
         return permissions
 
-    @action(methods=['post'], detail=True)
+    @action(methods=["post"], detail=True)
     def read(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.read_by_user_id(request.user.id)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(methods=['post'], detail=True)
+    @action(methods=["post"], detail=True)
     def comments(self, request, *args, **kwargs):
         from feed.serializers import CommentSerializer
 
         self.serializer_class = CommentSerializer
         return self.create(request, *args, **kwargs)
 
-    @action(methods=['get'], detail=False)
+    @action(methods=["get"], detail=False)
     def bookmarks(self, request, *args, **kwargs):
         self.queryset = self.queryset.filter(
             users_bookmark__user_id=request.user.id
-        ).prefetch_related('users_bookmark')
+        ).prefetch_related("users_bookmark")
         return self.list(request, *args, **kwargs)
 
-    @action(methods=['post'], detail=True)
+    @action(methods=["post"], detail=True)
     def bookmark(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.bookmark_by_user_id(request.user.id)
@@ -59,14 +59,14 @@ class NewsViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, GenericV
         instance.remove_bookmark_by_user_id(request.user.id)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(methods=['get'], detail=False)
+    @action(methods=["get"], detail=False)
     def favorites(self, request, *args, **kwargs):
         self.queryset = self.queryset.filter(
             users_favorite__user_id=request.user.id
-        ).prefetch_related('users_favorite')
+        ).prefetch_related("users_favorite")
         return self.list(request, *args, **kwargs)
 
-    @action(methods=['post'], detail=True)
+    @action(methods=["post"], detail=True)
     def favorite(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.favorite_by_user_id(request.user.id)

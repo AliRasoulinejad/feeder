@@ -4,15 +4,15 @@ from celery import Celery
 from celery.schedules import crontab
 from django.conf import settings
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'feeder.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "feeder.settings")
 
-app = Celery('feeder')
+app = Celery("feeder")
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
@@ -29,5 +29,5 @@ app.conf.beat_schedule = {
 
 class BaseTaskWithRetry(app.Task):
     autoretry_for = (Exception,)
-    retry_kwargs = {'max_retries': 5}
+    retry_kwargs = {"max_retries": 5}
     retry_backoff = True

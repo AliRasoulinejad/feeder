@@ -11,12 +11,14 @@ class TestCommentUrls(AbstractNewsTest):
         client = self.api_client
 
         data = {"text": "working"}
-        url = reverse('news-viewset-comments', args=(self.sample_news.id,))
+        url = reverse("news-viewset-comments", args=(self.sample_news.id,))
         response = client.post(url, json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(self.sample_news.comments.count(), 0)
 
-        client, _, _ = self.sign_in_user(client, self.sample_username, self.sample_password)
+        client, _, _ = self.sign_in_user(
+            client, self.sample_username, self.sample_password
+        )
         response = client.post(url, json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(self.sample_news.comments.count(), 1)
@@ -24,11 +26,13 @@ class TestCommentUrls(AbstractNewsTest):
     def test_list_comments(self):
         client = self.api_client
 
-        url = reverse('news-viewset-detail', args=[self.sample_news.id])
+        url = reverse("news-viewset-detail", args=[self.sample_news.id])
         response = client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-        client, _, _ = self.sign_in_user(client, self.sample_username, self.sample_password)
+        client, _, _ = self.sign_in_user(
+            client, self.sample_username, self.sample_password
+        )
         response = client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.json()["comments"]), 0)

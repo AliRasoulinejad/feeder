@@ -33,7 +33,7 @@ class TestScraper(AbstractFeedTest):
             description="fake description",
             link="https://www.feedforall.com/fake",
             rss_url=rss_url,
-            last_update=datetime(2004, 10, 20, 11, 56, 48)
+            last_update=datetime(2004, 10, 20, 11, 56, 48),
         )
 
         scraper = Scraper.parse(rss_url)
@@ -41,7 +41,9 @@ class TestScraper(AbstractFeedTest):
 
         fake_feed.refresh_from_db()
         self.assertEqual(fake_feed.title, "FeedForAll Sample Feed")
-        self.assertEqual(fake_feed.link, "http://www.feedforall.com/industry-solutions.htm")
+        self.assertEqual(
+            fake_feed.link, "http://www.feedforall.com/industry-solutions.htm"
+        )
 
     def test_rss_json_items_parser(self, *args, **kwargs):
         self.assertEqual(News.objects.count(), 0)

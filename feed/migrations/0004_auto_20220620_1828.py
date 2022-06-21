@@ -8,20 +8,20 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('feed', '0003_alter_userfollowfeed_unique_together'),
+        ("feed", "0003_alter_userfollowfeed_unique_together"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='userbookmarknews',
-            unique_together={('user', 'news')},
+            name="userbookmarknews",
+            unique_together={("user", "news")},
         ),
         migrations.AlterUniqueTogether(
-            name='userfavoritenews',
-            unique_together={('user', 'news')},
+            name="userfavoritenews",
+            unique_together={("user", "news")},
         ),
         migrations.AlterUniqueTogether(
-            name='userreadnews',
-            unique_together={('user', 'news')},
+            name="userreadnews",
+            unique_together={("user", "news")},
         ),
     ]

@@ -14,7 +14,7 @@ class TestUserUrls(AbstractFeederTest):
             "email": "a@a.com",
             "username": "test1",
             "password": "@Aaalkuvj",
-            "password2": "@Aaalkuvj"
+            "password2": "@Aaalkuvj",
         }
         response = self.api_client.post(
             reverse("user-signup"), json.dumps(data), content_type="application/json"

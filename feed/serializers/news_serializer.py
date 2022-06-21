@@ -11,10 +11,19 @@ class NewsSerializer(ModelSerializer):
     class Meta:
         model = News
         fields = (
-            "id", "feed", "title", "description", "link", "author", "created_at", "published_at",
-            "get_absolute_url", "comments", "total_unread_count"
+            "id",
+            "feed",
+            "title",
+            "description",
+            "link",
+            "author",
+            "created_at",
+            "published_at",
+            "get_absolute_url",
+            "comments",
+            "total_unread_count",
         )
         read_only_fields = fields
 
     def get_total_unread_count(self, obj):
-        return self.context['view'].queryset.count()
+        return self.context["view"].queryset.count()

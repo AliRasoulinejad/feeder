@@ -7,19 +7,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('feed', '0001_initial'),
+        ("feed", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userfollowfeed',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="userfollowfeed",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='feed',
-            name='rss_url',
-            field=models.URLField(db_index=True, help_text='unique url for scraping feed', unique=True),
+            model_name="feed",
+            name="rss_url",
+            field=models.URLField(
+                db_index=True, help_text="unique url for scraping feed", unique=True
+            ),
         ),
     ]

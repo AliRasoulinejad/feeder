@@ -34,9 +34,9 @@ class FeedUpdater:
         last_update = parse(last_update_str)
         utc = pytz.UTC
         return (
-                self.feed.last_update is not None
-                and last_update is not None
-                and self.feed.last_update.replace(tzinfo=utc) >= last_update
+            self.feed.last_update is not None
+            and last_update is not None
+            and self.feed.last_update.replace(tzinfo=utc) >= last_update
         )
 
 
@@ -46,10 +46,10 @@ class RSSJsonFeedParser:
         self.feed = feed
 
     def update_feed(self, json_feed):
-        self.feed.title = json_feed['title']
-        self.feed.link = json_feed['link']
-        self.feed.description = json_feed['description']
-        self.feed.last_update = parse(json_feed['published'])
+        self.feed.title = json_feed["title"]
+        self.feed.link = json_feed["link"]
+        self.feed.description = json_feed["description"]
+        self.feed.last_update = parse(json_feed["published"])
         self.feed.save()
 
 
@@ -59,5 +59,7 @@ class RSSJsonItemParser:
         self.feed = feed
 
     def insert_news(self, json_items):
-        news_items = [News.from_rss_json(self.feed.id, json_item) for json_item in json_items]
+        news_items = [
+            News.from_rss_json(self.feed.id, json_item) for json_item in json_items
+        ]
         News.objects.bulk_create(news_items)
